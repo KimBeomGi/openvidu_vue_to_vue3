@@ -38,18 +38,10 @@
       <!-- 내 캠 -->
       <div id="main-video">
         <UserVideo :stream-manager="mainStreamManagerComputed" />
-        <!-- <user-video v-if="selectedCamera || selectedAudio" :stream-manager="mainStreamManagerComputed" /> -->
       </div>
       <!-- 모든 캠 -->
       <div id="video-container">
-        <!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)" /> -->
         <UserVideo :stream-manager="publisherComputed" @click.native="updateMainVideoStreamManager(publisher)" />
-        <!-- <user-video
-          v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stream-manager="sub"
-          @click.native="updateMainVideoStreamManager(sub)"
-        /> -->
         <UserVideo
           v-for="sub in subscribersComputed"
           :key="sub.stream.connection.connectionId"
@@ -102,7 +94,6 @@
   // OpenVidu objects
   const OV = ref(undefined)
   const session = ref(undefined)
-  // const mainStreamManager = ref(undefined)
   let mainStreamManager = ref(undefined)
   const publisher = ref(undefined)
   const subscribers = ref([])
@@ -356,12 +347,6 @@
   }
   
   // select태그에서 사용할 기기를 선택했을때
-  // function handleCameraChange(event) {
-  //   selectedCamera.value = event.target.value
-  // }
-  // function handleAudioChange(event) {
-  //   selectedAudio.value = event.target.value 
-  // }
   async function handleCameraChange(event) {
     selectedCamera.value = event.target.value;
     await replaceCameraTrack(selectedCamera.value);
